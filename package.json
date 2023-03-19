@@ -1,0 +1,30 @@
+{
+  "name": "employ_nigeria",
+  "version": "1.0.0",
+  "description": "Employ Nigeria server to connect employees and employer for business purpose.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "keywords": [
+    "employ",
+    "app"
+  ],
+  "repository": "https://github.com/elozino",
+  "author": "Elozino Ovedhe",
+  "license": "MIT",
+  "dependencies": {
+    "argon2": "^0.30.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.2",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.21",
+    "otp-generator": "^4.0.1",
+    "pino": "^8.11.0",
+    "pino-pretty": "^10.0.0"
+  }
+}

@@ -1,0 +1,28 @@
+import express from "express";
+import logger from "./utils/logger.js";
+import db from "./utils/db.js";
+import authRoutes from "./routes/authRoute.js";
+import errorHandler from "./middleware/error.js";
+
+const app = express();
+const PORT = 5000;
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Routes
+app.get("/", (req, res) => {
+  res.status(500).send("Welcome to Employ Nigeria Server");
+});
+
+app.use("/api/auth", authRoutes);
+
+// Error Handling (when api is not found)
+app.use(errorHandler);
+
+// Spin server
+app.listen(PORT, async () => {
+  logger.info(`App is listening on port http://localhost:${PORT}`);
+  await db();
+});
