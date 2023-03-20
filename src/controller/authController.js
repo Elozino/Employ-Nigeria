@@ -48,11 +48,16 @@ export const createUser = async (req, res) => {
   newUser
     .save()
     .then((result) =>
-      res.status(200).send({
-        message: "User successfully created",
-        user: newUser,
-        accessToken,
-      })
+      res
+        .cookie("access_token", accessToken, {
+          httpOnly: true,
+        })
+        .status(200)
+        .send({
+          message: "User successfully created",
+          user: newUser,
+          accessToken,
+        })
     )
     .catch((err) => {
       logger.error(err);
@@ -78,6 +83,7 @@ export const loginUser = async (req, res) => {
   } else {
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
+    // remove password from the user data to be sent (security purpose)
     const { password, ...others } = user;
     res
       .cookie("access_token", accessToken, {
