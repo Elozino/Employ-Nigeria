@@ -3,6 +3,7 @@ import logger from "./utils/logger.js";
 import db from "./utils/db.js";
 import authRoutes from "./routes/authRoute.js";
 import errorHandler from "./middleware/error.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = 5000;
@@ -10,6 +11,7 @@ const PORT = 5000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.get("/", (req, res) => {
