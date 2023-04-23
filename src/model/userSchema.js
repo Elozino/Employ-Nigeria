@@ -23,7 +23,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    refreshToken: {
+    username: {
+      type: String,
+    },
+    avatar: {
+      type: String,
+    },
+    dob: {
+      type: String,
+    },
+    gender: {
+      type: String,
+    },
+    address: {
       type: String,
     },
     otp: {
