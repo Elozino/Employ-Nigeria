@@ -27,8 +27,8 @@ export const profile = (req, res) => {
   // }
 };
 
-// profile update
-export const getUsers = (req, res) => {
+// update user profile
+export const updateProfile = (req, res) => {
   const data = req.user;
   const { username, avatar, dob, gender, address, telephone } = req.body;
   const user = User.findByIdAndUpdate(
@@ -52,4 +52,4 @@ export const getUsers = (req, res) => {
   }
 };
 
-// update user profile
+
