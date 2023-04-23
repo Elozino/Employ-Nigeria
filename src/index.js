@@ -2,6 +2,7 @@ import express from "express";
 import logger from "./utils/logger.js";
 import db from "./utils/db.js";
 import authRoutes from "./routes/authRoute.js";
+import profileRoutes from "./routes/profileRoute.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", profileRoutes);
 
 // Error Handling (when api is not found)
 app.use(errorHandler);
