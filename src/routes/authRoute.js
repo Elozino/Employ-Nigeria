@@ -17,7 +17,7 @@ router.post("/login", loginUser);
 router.post("/otp_request", verifyAccessToken, otpRequest);
 router.post("/signup/verify", verifyAccessToken, emailVerification);
 router.post("/logout", verifyAccessToken, logoutUser);
-router.post("/change_password", verifyAccessToken, changePassword);
+router.post("/change_password/:email", verifyAccessToken, changePassword);
 router.post("/forgot_password", verifyAccessToken, forgotPassword);
 
 export default router;

@@ -85,7 +85,7 @@ export const loginUser = async (req, res) => {
     const { email, userType } = user;
     const payload = { email, userType };
     const accessToken = generateAccessToken(payload);
-    
+
     // remove password from the user data to be sent (security purpose)
     const { password, ...others } = user;
     return res
@@ -188,7 +188,8 @@ export const logoutUser = async (req, res) => {
 
 //Change Password
 export const changePassword = async (req, res) => {
-  const { email, password, confirmPassword } = req.body;
+  const { email } = req.params;
+  const { password, confirmPassword } = req.body;
   const user = User.findOne({ email });
   if (!user) {
     return res.status(400).json("User is not valid");
