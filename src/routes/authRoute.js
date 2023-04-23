@@ -13,11 +13,11 @@ import { verifyAccessToken } from "../middleware/verifyToken.js";
 const router = express.Router();
 
 router.post("/signup", createUser);
-router.post("/login", verifyAccessToken, loginUser);
-router.post("/signup/verify", emailVerification);
-router.post("/otp_request", otpRequest);
+router.post("/login", loginUser);
+router.post("/otp_request", verifyAccessToken, otpRequest);
+router.post("/signup/verify", verifyAccessToken, emailVerification);
 router.post("/logout", verifyAccessToken, logoutUser);
-router.post("/forgot_password", forgotPassword);
-router.post("/change_password", changePassword);
+router.post("/change_password", verifyAccessToken, changePassword);
+router.post("/forgot_password", verifyAccessToken, forgotPassword);
 
 export default router;
