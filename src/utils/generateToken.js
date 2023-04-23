@@ -17,6 +17,9 @@ export const generateRefreshToken = (user) => {
 
 export const verifyToken = (token) => {
   jwt.verify(token, "employNigeriaSecretKey", (err, user) => {
-    err && logger.error(err);
+    if (err) {
+      logger.error(err);
+      return res.status(406).send({ message: "Unauthorized" });
+    } else return user;
   });
 };
