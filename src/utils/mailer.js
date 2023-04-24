@@ -1,41 +1,34 @@
 import nodemailer from "nodemailer";
-import logger from "./logger.js";
 
-// async function createTestCredentials() {
-//   const credentials = await nodemailer.createTestAccount();
-//   console.log(credentials);
-// }
-
-// createTestCredentials();
-
-// smtp: {
-//   user: "z7d5zyhxp5zcv3mr@ethereal.email",
-//   pass: "5SpvtaChAWEWWajbsa",
-//   host: "smtp.ethereal.email",
-//   port: "587",
-//   secure: false, // set secure to true on production
-// }
-
-const MAIL_SETTINGS = {
-  service: "gmail",
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // true for 465, false for other ports
   auth: {
-    user: "z7d5zyhxp5zcv3mr@ethereal.email",
-    pass: "5SpvtaChAWEWWajbsa",
+    user: process.env.EMAIL, // replace with your email address
+    pass: process.env.PASSWORD, // replace with your password
   },
-};
-
-const transporter = nodemailer.createTransport({
-  MAIL_SETTINGS,
 });
 
-async function sendEmail(payload) {
-  transporter.sendMail(payload, (err, info) => {
-    if (err) {
-      logger.error(err, "Error sending email");
-      return;
+// setup email data with unicode symbols
+let mailOptions = {
+  from: '"John Doe" <johndoe@gmail.com>', // sender address
+  to: "ovedhee@gmail.com", // list of receivers
+  subject: "Test Email", // Subject line
+  text: "Hello World!", // plain text body
+  html: "<b>Hello World!</b>", // html body
+};
+
+// send mail with defined transport object
+async function sendMail(mailOptions) {
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
     }
-    logger.info(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
   });
 }
 
-export default sendEmail;
+sendMail(mailOptions);

@@ -8,7 +8,7 @@ import {
   generateRefreshToken,
 } from "../utils/generateToken.js";
 import logger from "../utils/logger.js";
-import sendEmail from "../utils/mailer.js";
+// import sendEmail from "../utils/mailer.js";
 
 // Signup
 export const createUser = async (req, res) => {
@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
 
   // validate password to make sure user sends a strong password
   if (!validatePassword(password)) {
-    return res.status(400).send({
+    return res.status(401).send({
       error:
         "Password must contain at least 8 characters including uppercase, lowercase and special characters",
     });
@@ -34,7 +34,7 @@ export const createUser = async (req, res) => {
 
   // Generate tokens
   const accessToken = generateAccessToken(payload);
-  const refreshToken = generateRefreshToken(payload);
+
   const newUser = new User({
     fullname,
     email,
@@ -51,7 +51,8 @@ export const createUser = async (req, res) => {
       return res
         .cookie("token", accessToken, {
           httpOnly: true,
-          secure: true,
+          sameSite: "none",
+          secure: false, // change to true
         })
         .status(200)
         .send({
@@ -131,8 +132,8 @@ export const otpRequest = async (req, res) => {
       </div>
     `,
     };
-    await sendEmail(payload);
-    return res.status(200).send({
+    // await sendEmail(payload);
+    res.status(200).send({
       otp,
       user: userData,
     });

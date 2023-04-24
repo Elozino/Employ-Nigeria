@@ -5,6 +5,8 @@ import authRoutes from "./routes/authRoute.js";
 import profileRoutes from "./routes/profileRoute.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = 5000;
@@ -16,7 +18,7 @@ app.use(cookieParser());
 
 // Routes
 app.get("/", (req, res) => {
-  res.status(500).send("Welcome to Employ Nigeria Server");
+  res.status(200).send("Welcome to Employ Nigeria Server");
 });
 
 app.use("/api/auth", authRoutes);
