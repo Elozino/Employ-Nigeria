@@ -3,9 +3,7 @@ import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
 import User from "../model/userSchema.js";
 import { validatePassword } from "../utils/validatePassword.js";
-import {
-  generateAccessToken,
-} from "../utils/generateToken.js";
+import { generateAccessToken } from "../utils/generateToken.js";
 import logger from "../utils/logger.js";
 import { sendEmail } from "../utils/mailer.js";
 
@@ -81,20 +79,29 @@ export const loginUser = async (req, res) => {
 
   if (!verifyPassword) {
     return res.status(400).send("Incorrect Password");
+  } else if (user.verified !== true) {
+    return res.status(403).send("Please verify your account");
   } else {
     const { email, userType } = user;
     const payload = { email, userType };
     const accessToken = generateAccessToken(payload);
 
     // remove password from the user data to be sent (security purpose)
-    const { password, ...others } = user;
+    const data = {
+      _id: user._id,
+      fullname: user.fullname,
+      email: user.email,
+      telephone: user.telephone,
+      userType: user.userType,
+      verified: user.verified,
+    };
     return res
       .cookie("token", accessToken, {
         httpOnly: true,
         secure: true,
       })
       .status(200)
-      .send({ user: others, accessToken });
+      .send({ user: data, accessToken });
   }
 };
 
