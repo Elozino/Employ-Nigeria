@@ -5,10 +5,9 @@ import User from "../model/userSchema.js";
 import { validatePassword } from "../utils/validatePassword.js";
 import {
   generateAccessToken,
-  generateRefreshToken,
 } from "../utils/generateToken.js";
 import logger from "../utils/logger.js";
-// import sendEmail from "../utils/mailer.js";
+import { sendEmail } from "../utils/mailer.js";
 
 // Signup
 export const createUser = async (req, res) => {
@@ -132,7 +131,7 @@ export const otpRequest = async (req, res) => {
       </div>
     `,
     };
-    // await sendEmail(payload);
+    await sendEmail(payload);
     res.status(200).send({
       otp,
       user: userData,
@@ -146,7 +145,7 @@ export const otpRequest = async (req, res) => {
 export const emailVerification = async (req, res) => {
   const { email, otp } = req.body;
   // Find user by email (checking if user registration was done to proceed to authentication)
-  const user = await findOne({ email });
+  const user = await User.findOne({ email });
 
   // check if otp is the same
   if (user.otp === otp) {
